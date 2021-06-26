@@ -1,0 +1,47 @@
+.code
+Sinifla proc
+	mov r10d,0    ;eleman sayisini 2. karsilastirma icin tut
+	mov r12,rdx     ;toplama islemi icin
+	mov r13d,ecx    ;2.karsilastirmada pointeri basa dondurmek icin
+				   ;adres 64 bit oldugu icin r13
+Uzaklik:
+	mov eax, dword ptr[rdx]
+	sub eax, dword ptr[r8]
+	jl MutlakDeger  ;sifirdan kucukse mutlak degerini al
+	add r10d,eax    ;sifirdan buyukse registera ekle
+
+Ilerle:
+	add rdx,4     ;dizinin bir sonraki elemanina gec
+	add r8,4 
+	dec ecx       ;eleman sayisini 1 azalt
+	jne Uzaklik   ;donguyu sagla
+	cmp ebx,0	  ;sýfýrdan buyukse Asinifina git
+	jg Asinifi
+
+IkinciUzaklik:
+	mov ecx, r13d	  ;eleman sayisini tekrar yukle
+	mov ebx, r10d	  ;ilk karsilastirmadaki sonucu sakla
+	mov r10d, 0       ;ilk karsilastirmadaki sonucu sil
+	mov rdx, r12      ;pointeri basa dondur
+	mov r8, r9        ;Donguyu tekrar kullanabilmek icin
+	jmp Uzaklik
+
+MutlakDeger:
+	mov r11d, eax
+	neg eax
+	cmovl eax, r11d
+	add r10d, eax
+	jmp Ilerle
+
+Asinifi:
+	cmp r10d, ebx
+	jl Bsinifi
+	mov eax, 1      ;A sinifi icin 1 dondur
+	ret
+
+BSinifi:
+	mov eax, 0      ;B sinifi icin 0 dondur
+	ret
+
+Sinifla endp
+end

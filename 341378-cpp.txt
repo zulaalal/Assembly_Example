@@ -1,0 +1,38 @@
+#include <iostream>	
+#include <fstream>	
+
+using namespace std;
+
+
+extern "C" int Sinifla(int eleman_sayýsý, int * dosyadan_okunan_özellik_dizisi_göstericisi, int * A_sýnýfý_özellik_dizisi_göstericisi, int * B_sýnýfý_özellik_dizisi_göstericisi);
+
+int main(int argc, char * argv[]) 
+{
+	int i = 0, elemansayisi = 0, dizi[100];
+	int diziA[4] = { 2,3,5,-1 };
+	int diziB[4] = { -9,-8,-5,-6 };
+
+	
+	std::ifstream girisdosya_ptr("C.txt", std::ifstream::in);
+
+	
+	while (girisdosya_ptr.good())
+		girisdosya_ptr >> dizi[elemansayisi++];
+
+	
+	if (Sinifla(elemansayisi, dizi, diziA, diziB) == 0)
+		std::cout << "B sinifina aittir" << std::endl;
+
+	else if (Sinifla(elemansayisi, dizi, diziA, diziB) == 1)
+		std::cout << "A sinifina aittir" << std::endl;
+
+	else
+		std::cout << "2 sinifa da aittir" << std::endl;
+
+	getchar();
+	
+	girisdosya_ptr.close();
+
+	
+	return 0;
+}
